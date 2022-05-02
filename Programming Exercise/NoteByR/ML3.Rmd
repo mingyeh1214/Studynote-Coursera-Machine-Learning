@@ -1,0 +1,34 @@
+---
+title: "ML3"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(R.matlab)
+library(dplyr)
+library(plotly)
+```
+
+```{r}
+path <- '/Users/liumingyeh/Desktop/OpenCourse/Machine Learning by Standford/machine-learning-ex6/ex6/ex6data1.mat'
+data <- path %>% readMat()
+data <- data.frame(x1=data$X[,1],x2=data$X[,2],y=factor(data$y))
+plot_ly() %>%
+  add_trace(data=data, x=~x1, y=~x2, color=~y, colors = c('red','blue'),symbol=~y,symbols=c('x','circle'),type = 'scatter',mode='markers')
+```
+
+```{r}
+gaussianKernel <- function(sigma) {
+  function(x1, x2) {
+    x1 <- c(x1); x2 <- c(x2)
+    sim <- exp(-(sum((x1 - x2) ^ 2)) / (2 * sigma ^ 2))
+    return(sim)
+  }
+}
+gaussianKernel(sigma)(x1,x2)
+x1 = c(1, 2 ,1); x2 = c(0, 4, -1); sigma = 2
+
+
+
+```

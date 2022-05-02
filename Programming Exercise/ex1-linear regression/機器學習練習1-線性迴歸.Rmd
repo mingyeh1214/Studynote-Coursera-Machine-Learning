@@ -29,13 +29,17 @@ data.plot(kind='scatter', x='Population', y='Profit', figsize=(12,8))
 plt.show()
 ```
 
-Cost Function
+Cost Function\
+這裡除以2是方便後面偏微分對消指數\
 $$J\left( \theta  \right)=\frac{1}{2m}\sum\limits_{i=1}^{m}{{{\left( {{h}_{\theta }}\left( {{x}^{(i)}} \right)-{{y}^{(i)}} \right)}^{2}}}$$
 其中：
-$${{h}_{\theta }}\left( x \right)={{\theta }^{T}}X={{\theta }_{0}}{{x}_{0}}+{{\theta }_{1}}{{x}_{1}}+{{\theta }_{2}}{{x}_{2}}+...+{{\theta }_{n}}{{x}_{n}}$$
+$$
+{{h}_{\theta }}\left( x \right)={{\theta }^{T}}X={{\theta }_{0}}{{x}_{0}}+{{\theta }_{1}}{{x}_{1}}+{{\theta }_{2}}{{x}_{2}}+...+{{\theta }_{n}}{{x}_{n}}
+$$
 
 ```{python}
 def computeCost(X, y, theta):
+    # X是m x 2矩陣,theta是1 x 2矩陣,y是m x 1矩陣
     inner = np.power(((X * theta.T) - y), 2)
     return np.sum(inner) / (2 * len(X))
 ```
@@ -48,8 +52,8 @@ data.head()
 ```{python}
 # set X (training data) and y (target variable)
 cols = data.shape[1]
-X = data.iloc[:,0:cols-1]#X是所有行，去掉最後一列
-y = data.iloc[:,cols-1:cols]#y是所有行，最後一列
+X = data.iloc[:,0:cols-1]# X是所有行，去掉最後一列
+y = data.iloc[:,cols-1:cols]# y是所有行，最後一列
 X.head()
 y.head()
 ```
@@ -65,7 +69,15 @@ computeCost(X, y, theta)
 
 # batch gradient decent（批量梯度下降）
 
-$${{\theta }_{j}}:={{\theta }_{j}}-\alpha \frac{\partial }{\partial {{\theta }_{j}}}J\left( \theta  \right)$$
+$$
+{{\theta }_{j}}:={{\theta }_{j}}-\alpha \frac{\partial }{\partial {{\theta }_{j}}}J\left( \theta  \right)
+$$
+$$
+\theta_0:=\theta_0-\alpha\frac{1}{m}\sum_{i=1}^{m}\left(h_{\theta}(x^{(i)})-y^{(i)}\right)\cdot 1
+$$
+$$
+\theta_1:=\theta_1-\alpha\frac{1}{m}\sum_{i=1}^{m}\left((h_{\theta}(x^{(i)})-y^{(i)})\right)\cdot x^{(i)}
+$$
 
 ```{python}
 def gradientDescent(X, y, theta, alpha, iters):
@@ -94,6 +106,7 @@ iters = 1000
 ```{python}
 g, cost = gradientDescent(X, y, theta, alpha, iters)
 g
+cost
 ```
 
 ```{python}
@@ -124,7 +137,6 @@ plt.show()
 ```
 
 # 多變量線性回歸
-
 ```{python}
 path =  'ex1data2.txt'
 data2 = pd.read_csv(path, header=None, names=['Size', 'Bedrooms', 'Price'])
@@ -187,16 +199,15 @@ plt.show()
 ```
 
 # normal equation（正規方程）
-
 ```{python}
 # 正規方程
 def normalEqn(X, y):
-    theta = np.linalg.inv(X.T@X)@X.T@y#X.T@X等價於X.T.dot(X)
+    theta = np.linalg.inv(X.T@X)@X.T@y# X.T@X等價於X.T.dot(X)
     return theta
 ```
 
 ```{python}
-final_theta2=normalEqn(X, y)#感觉和批量梯度下降的theta的值有点差距
+final_theta2=normalEqn(X, y)# 感觉和批量梯度下降的theta的值有点差距
 final_theta2
 ```
 
