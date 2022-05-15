@@ -45,7 +45,7 @@ def computeCost(X, y, theta):
 ```
 
 ```{python}
-data.insert(0, 'Ones', 1)
+data.insert(loc=0, column='Ones', value=1)
 data.head()
 ```
 

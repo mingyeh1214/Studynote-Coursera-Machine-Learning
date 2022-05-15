@@ -1,0 +1,5 @@
+"0","J = computeCost(X, y, theta=np.array([0.0, 0.0]))"
+"0","print('With theta = [0, 0] \nCost computed = %.2f' % J)"
+"1","With theta = [0, 0] 
+Cost computed = 32.07
+"

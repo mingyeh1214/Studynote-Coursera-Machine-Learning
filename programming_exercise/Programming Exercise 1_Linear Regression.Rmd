@@ -1,0 +1,130 @@
+---
+title: "Programming Exercise 1: Linear Regression"
+output:
+  html_document:
+    toc: true
+    number_sections: false
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+---
+
+```{r setup, include=FALSE}
+library(reticulate)
+```
+
+```{python}
+import os
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+```
+
+# Python
+
+## 2 Linear regression with one variable
+
+```{python}
+data = np.loadtxt(os.path.join('data', 'ex1data1.txt'), delimiter=',')
+X, y = data[:, 0], data[:, 1]
+m = y.size
+```
+
+### 2.1 Plotting the Data
+
+```{python}
+data.plot(kind='scatter', x='Population', y='Profit', figsize=(12,8))
+plt.show()
+```
+
+### 2.2 Gradient Descent
+
+#### 2.2.1 Update Equations
+
+Hypothesis\
+$$
+h_{\theta}(x^{(i)})
+=\theta_0\cdot1+\theta_1x^{(i)}
+=\theta_0x_0^{(i)}+\theta_1x_1^{(i)}
+=x^{(i)}\theta^T
+$$
+Cost Function\
+這裡除以2是方便後面偏微分對消指數\
+$$
+J\left(\theta\right)
+=J\left(\theta_0,\theta_1\right)
+=\frac{1}{2m}\sum\limits_{i=1}^{m}{{{\left( {{h}_{\theta}}\left({{x}^{(i)}}\right)-{{y}^{(i)}}\right)}^{2}}}
+$$
+Gradient Descent
+$$
+\theta_j
+:=\theta_j-\alpha\frac{\partial}{\partial\theta_j}J(\theta_j)
+:=\theta_j-\alpha\frac{1}{m}\sum_{i=1}^{m}\left((h_{\theta}(x^{(i)})-y^{(i)})\right)\cdot x_j^{(i)}
+$$
+
+#### 2.2.2 Implementation
+
+```{python}
+X = np.stack([np.ones(m), X], axis=1)
+```
+
+#### 2.2.3 Computing the cost $J(\theta)$
+
+```{python}
+def computeCost(X, y, theta):
+    # X是m x 2矩陣,theta是1 x 2矩陣,y是m x 1矩陣
+    m = y.size
+    J = 0
+    h = np.dot(X, theta)
+    J = (1/(2 * m)) * np.sum(np.square(h - y))
+    return J
+```
+
+
+```{python}
+J = computeCost(X, y, theta=np.array([0.0, 0.0]))
+print('With theta = [0, 0] \nCost computed = %.2f' % J)
+```
+
+```{python}
+def gradientDescent(X, y, theta, alpha, num_iters):
+  
+    m = y.shape[0]
+    
+    theta = theta.copy()
+    
+    J_history = []
+    
+    for i in range(num_iters):
+      
+        theta = theta - (alpha / m) * (np.dot(X, theta) - y).dot(X)
+        
+        J_history.append(computeCost(X, y, theta))
+        
+    return theta, J_history
+```
+
+```{python}
+theta = np.zeros(2)
+
+# some gradient descent settings
+iterations = 1500
+alpha = 0.01
+
+theta, J_history = gradientDescent(X ,y, theta, alpha, iterations)
+print('Theta found by gradient descent: {:.4f}, {:.4f}'.format(*theta))
+
+```
+
+
+
+
+
+
+
+
+
+
+
+

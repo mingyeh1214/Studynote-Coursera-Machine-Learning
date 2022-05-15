@@ -1,0 +1,7 @@
+"0","def computeCost(X, y, theta):"
+"0","    # X是m x 2矩陣,theta是1 x 2矩陣,y是m x 1矩陣"
+"0","    m = y.size"
+"0","    J = 0"
+"0","    h = np.dot(X, theta)"
+"0","    J = (1/(2 * m)) * np.sum(np.square(h - y))"
+"0","    return J"
