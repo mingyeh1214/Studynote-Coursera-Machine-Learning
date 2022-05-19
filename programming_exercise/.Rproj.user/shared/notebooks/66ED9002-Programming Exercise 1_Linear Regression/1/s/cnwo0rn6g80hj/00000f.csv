@@ -1,4 +1,0 @@
-"0","print('Theta found by gradient descent: {:.4f}, {:.4f}'.format(*theta))
-"
-"1","Theta found by gradient descent: -3.6303, 1.1664
-"

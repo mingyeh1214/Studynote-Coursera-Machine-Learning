@@ -1,4 +1,0 @@
-"0","data.plot(kind='scatter', x='Population', y='Profit', figsize=(12,8))"
-"2","AttributeError: 'numpy.ndarray' object has no attribute 'plot'
-"
-"0","plt.show()"
